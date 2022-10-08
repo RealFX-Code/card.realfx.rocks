@@ -8,15 +8,14 @@
         <meta name="description" content="My pronounspage">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
-        <script src="js/anime.min.js"></script>
-    </head>
-    <body>
-        <script type="module">
-            anime({targets: 'img',opacity: '1',easing: 'linear',dutaion: 3000});
+        <script>
+            let setVisibility = () => document.getElementById('card').classList.add('visible');
         </script>
+    </head>
+    <body onload="setVisibility()">
         <div class="fill card-container">
             <a class="card-link" href="https://en.pronouns.page/@RealFX">
-                <img class="card" src="card.png" alt="@RealFX -> he/they">
+                <img id="card" src="card.png" alt="@RealFX -> he/they">
             </a>
         </div>
     </body>
