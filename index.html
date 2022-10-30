@@ -1,22 +1,64 @@
 <!DOCTYPE html>
+
+<!--  
+    If you're looking here, you should probably check out my github!
+    
+    https://github.com/RealFX-Code
+-->
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>
             rx-//pronounspage
         </title>
-        <meta name="description" content="My pronounspage">
+        <meta name="description" content="My card!">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
-        <script>
-            let setVisibility = () => document.getElementById('card').classList.add('visible');
+
+        <script defer>
+            
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                const username = "RealFX";
+                const cards = ['card'];
+                
+                let cardContainer = document.getElementById('cardContainer');
+                
+                let cardLink = document.createElement('a');
+                cardLink.classList.add('card-link');
+                cardLink.href = `https://en.pronouns.page/@${username}`;
+                
+                cards.forEach((card, index) => {
+                    
+                    let img = document.createElement('img');
+                    
+                    img.id = card;
+                    img.alt = `@${username}`;
+                    img.title = "Click to go to my Prounouns.page";
+                    img.onload = () => {
+                        cards.forEach((card, index) => {
+                            (document.getElementById(card)).classList.add('visible');
+                        });
+                    };
+                    
+                    fetch(`https://pronouns.page/api/profile/get/${username}?version=2`)
+                    .then((response) => response.json())
+                    .then((data) => img.src = data.profiles.en.cardDark);
+                    
+                    cardLink.appendChild(img);
+                    
+                });
+                
+                cardContainer.appendChild(cardLink);
+                
+            });
+
         </script>
+
     </head>
-    <body onload="setVisibility()">
-        <div class="fill card-container">
-            <a class="card-link" href="https://en.pronouns.page/@RealFX">
-                <img id="card" src="card.png" alt="@RealFX -> he/they/she" title="Click to go to my Prounouns.page">
-            </a>
+    <body>
+        <div id="cardContainer">
         </div>
     </body>
 </html>

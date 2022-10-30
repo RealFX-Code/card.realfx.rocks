@@ -7,15 +7,12 @@ body{
     overflow: hidden;
 }
 
-fill {
-    position:absolute;
-    top:0px;
-    right:0px;
-    bottom:0px;
-    left:0px;
-}
-
 img {
+    color: white;
+    text-align: center;
+    font-weight: bolder;
+    font-family: monospace;
+    font-size: 5vmin;
     width: 100vw;
     height: auto;
     max-width: none;
@@ -26,7 +23,6 @@ img {
     margin: 0;
     position: absolute;
     top: 50%;
-    -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
