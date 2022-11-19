@@ -1,7 +1,7 @@
 # Card.realfx.rocks
 
 This is a showcase website that gets a card from
-<a href="pronouns.page">pronouns.page</a>,
+<a href="https://pronouns.page/">pronouns.page</a>,
 and then displays it.
 
 ## How do I use it?
