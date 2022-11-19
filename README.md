@@ -16,7 +16,7 @@ It works by getting a Dark-Mode card from Pronouns.Page's API,
 so if you use your username on this,
 you have to Generate a DarkMode Card image on your pronouns.page page.
 
-On the though of using your own username:
+On the thought of using your own username:
 
 ### How do I use it?
 
