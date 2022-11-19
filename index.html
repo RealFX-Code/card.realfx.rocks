@@ -52,10 +52,20 @@
 
             // You have to set the "username" variable to use this on your own pronouns.page...
             // When you edit anything on your pronouns.page you have to generate a dark-mode card picture.
+
+            // You can also supply a search querey to use a different username to get the card from...
+            // Example: https://card.realfx.rocks/?username=<username>
             
             document.addEventListener('DOMContentLoaded', () => {
                 
-                const username = "RealFX";
+                const searchParams = new URLSearchParams((new URL(window.location)).search);
+                
+                let username = "RealFX";
+
+                if (searchParams.has('username')) {
+                    username = searchParams.get('username');
+                }
+
                 const cards = ['card'];
                 
                 const makeVisible = () => {
@@ -84,8 +94,8 @@
                     fetch(`https://pronouns.page/api/profile/get/${username}?version=2`)
                         .then((response) => response.json())
                         .then((data) => {
-                            if ( data.profiles?.en?.cardDark != null ) {
-                                img.src = data.profiles.en.cardDark
+                            if ( data.profiles?.en?.cardDark != null ) { // if data.profiles.en.cardDark exists, display the card image.
+                                img.src = data.profiles.en.cardDark     // If not, just show the image's alt.
                             } else {
                                 makeVisible();
                             }
