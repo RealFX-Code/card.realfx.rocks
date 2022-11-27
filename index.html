@@ -50,48 +50,55 @@
 
         <script>
 
-            // You have to set the "username" variable to use this on your own pronouns.page...
-            // When you edit anything on your pronouns.page you have to generate a dark-mode card picture.
+            /* 
 
-            // You can also supply a search querey to use a different username to get the card from...
-            // Example: https://card.realfx.rocks/?username=<username>
-            
+                You have to set the "username" variable to use this on your own pronouns.page...
+                When you edit anything on your pronouns.page you have to generate a dark-mode card picture.
+
+                You can also supply a search querey to use a different username to get the card from...
+                Example: https://card.realfx.rocks/?username=<username>
+
+             */
             document.addEventListener('DOMContentLoaded', () => {
                 
                 const searchParams = new URLSearchParams((new URL(window.location)).search);
-                
-                let username = "RealFX";
 
+                let cards = [{
+                    "id": "card",
+                    "username": "realfx"
+                }];
+                
                 if (searchParams.has('username')) {
-                    username = searchParams.get('username');
+                    cards[0].username = searchParams.get('username');
                 }
 
-                const cards = ['card'];
-                
                 const makeVisible = () => {
                     cards.forEach((card, index) => {
-                        (document.getElementById(card)).classList.add('visible');
+                        (document.getElementById(card.id)).classList.add('visible');
                     });
                 }
 
-                let cardContainer = document.getElementById('cardContainer');
-                
-                let cardLink = document.createElement('a');
-                cardLink.classList.add('card-link');
-                cardLink.href = `https://en.pronouns.page/@${username}`;
-                
+                let tempCardContainer = [];
+
                 cards.forEach((card, index) => {
+
+                    let cardContainer = document.getElementById('cardContainer');
+                    
+                    let cardLink = document.createElement('a');
+
+                    cardLink.classList.add('card-link');
+                    cardLink.href = `https://en.pronouns.page/@${card.username}`;
                     
                     let img = document.createElement('img');
                     
-                    img.id = card;
-                    img.alt = `@${username}`;
+                    img.id = card.id;
+                    img.alt = `@${card.username}`;
                     img.title = "Click to go to my Prounouns.page";
                     img.onload = () => {
                         makeVisible();
                     };
                     
-                    fetch(`https://pronouns.page/api/profile/get/${username}?version=2`)
+                    fetch(`https://pronouns.page/api/profile/get/${card.username}?version=2`)
                         .then((response) => response.json())
                         .then((data) => {
                             if ( data.profiles?.en?.cardDark != null ) { // if data.profiles.en.cardDark exists, display the card image.
@@ -103,10 +110,16 @@
                     
                     cardLink.appendChild(img);
                     
+                    tempCardContainer.push(cardLink);
+
                 });
                 
-                cardContainer.appendChild(cardLink);
+                tempCardContainer.forEach((data, index) => {
+                    cardContainer.appendChild(data);
+                });
                 
+                console.info(`Added the card to DOM. With the username "${cards[0].username}"`);
+
             });
 
         </script>
