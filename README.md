@@ -35,6 +35,6 @@ https://card.realfx.rocks/?username=realfx
 ## Found an issue?
 
 I encourage you to make an issue in this repository, so I can fix the issue.
-Or if you feel like it, make a pull request!
+Or if you're **really** cool, make a pull request fixing the issue!
 
 rlfx (c) 2022
