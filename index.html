@@ -63,62 +63,55 @@
                 
                 const searchParams = new URLSearchParams((new URL(window.location)).search);
 
-                let cards = [{
+                let card = {
                     "id": "card",
                     "username": "realfx"
-                }];
+                };
                 
                 if (searchParams.has('username')) {
                     cards[0].username = searchParams.get('username');
                 }
 
                 const makeVisible = () => {
-                    cards.forEach((card, index) => {
-                        (document.getElementById(card.id)).classList.add('visible');
-                    });
+                    (document.getElementById(card.id)).classList.add('visible');
                 }
 
                 let tempCardContainer = [];
 
-                cards.forEach((card, index) => {
-
-                    let cardContainer = document.getElementById('cardContainer');
-                    
-                    let cardLink = document.createElement('a');
-
-                    cardLink.classList.add('card-link');
-                    cardLink.href = `https://en.pronouns.page/@${card.username}`;
-                    
-                    let img = document.createElement('img');
-                    
-                    img.id = card.id;
-                    img.alt = `@${card.username}`;
-                    img.title = "Click to go to my Prounouns.page";
-                    img.onload = () => {
-                        makeVisible();
-                    };
-                    
-                    fetch(`https://pronouns.page/api/profile/get/${card.username}?version=2`)
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if ( data.profiles?.en?.cardDark != null ) { // if data.profiles.en.cardDark exists, display the card image.
-                                img.src = data.profiles.en.cardDark     // If not, just show the image's alt.
-                            } else {
-                                makeVisible();
-                            }
-                        });
-                    
-                    cardLink.appendChild(img);
-                    
-                    tempCardContainer.push(cardLink);
-
-                });
+                let cardContainer = document.getElementById('cardContainer');
+                
+                let cardLink = document.createElement('a');
+                cardLink.classList.add('card-link');
+                cardLink.href = `https://en.pronouns.page/@${card.username}`;
+                
+                let img = document.createElement('img');
+                
+                img.id = card.id;
+                img.alt = `@${card.username}`;
+                img.title = "Click to go to my Prounouns.page";
+                img.onload = () => {
+                    makeVisible();
+                };
+                
+                fetch(`https://pronouns.page/api/profile/get/${card.username}?version=2`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if ( data.profiles?.en?.cardDark != null ) { // if data.profiles.en.cardDark exists, display the card image.
+                            img.src = data.profiles.en.cardDark     // If not, just show the image's alt.
+                        } else {
+                            makeVisible();
+                        }
+                    });
+                
+                cardLink.appendChild(img);
+                
+                tempCardContainer.push(cardLink);
                 
                 tempCardContainer.forEach((data, index) => {
                     cardContainer.appendChild(data);
                 });
                 
-                console.info(`Added the card to DOM. With the username "${cards[0].username}"`);
+                console.info(`Added the card to DOM. With the username "${card.username}"`);
 
             });
 
