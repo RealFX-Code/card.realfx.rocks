@@ -2,7 +2,6 @@
 
 <!--  
     If you're looking here, you should probably check out my github!
-    
     https://github.com/RealFX-Code
 -->
 
@@ -52,65 +51,88 @@
 
             /* 
 
-                You have to set the "username" variable to use this on your own pronouns.page...
-                When you edit anything on your pronouns.page you have to generate a dark-mode card picture.
-
-                You can also supply a search querey to use a different username to get the card from...
-                Example: https://card.realfx.rocks/?username=<username>
+                Example getting the card for "@example":
+                https://card.realfx.rocks/?username=example
 
              */
             document.addEventListener('DOMContentLoaded', () => {
                 
+                // Get search parameters and store them in "searchParams"
                 const searchParams = new URLSearchParams((new URL(window.location)).search);
 
+                // Create card object
                 let card = {
                     "id": "card",
                     "username": "sometime"
                 };
                 
+                // If searchParams contains username
                 if (searchParams.has('username')) {
+                    // set card.username to the username in the search querey.
                     card.username = searchParams.get('username');
                 }
 
+                // Define "makeVisible()"
                 const makeVisible = () => {
+                    // Get the card by using it's ID, Then make it visible.
                     (document.getElementById(card.id)).classList.add('visible');
                 }
 
-                let tempCardContainer = [];
-
+                // Get the card Container div from the DOM
                 let cardContainer = document.getElementById('cardContainer');
                 
+                // Create empty <a> element
                 let cardLink = document.createElement('a');
+
+                // Add the "card-link" class to the link element
                 cardLink.classList.add('card-link');
+
+                // Add the "href" value to the link element
                 cardLink.href = `https://en.pronouns.page/@${card.username}`;
                 
+                // Create an image element
                 let img = document.createElement('img');
                 
+                // Set the image's ID
                 img.id = card.id;
+
+                // Set the image's alt
                 img.alt = `@${card.username}`;
+
+                // Set the images title / tooltip
                 img.title = "Click to go to my Prounouns.page";
+
+                // When the image loads,
                 img.onload = () => {
+                    // Make it visible
                     makeVisible();
                 };
                 
+                // Make a request to pronouns.page's API
                 fetch(`https://pronouns.page/api/profile/get/${card.username}?version=2`)
+                    // Make response JSON
                     .then((response) => response.json())
+                    // With that data,
                     .then((data) => {
-                        if ( data.profiles?.en?.cardDark != null ) { // if data.profiles.en.cardDark exists, display the card image.
-                            img.src = data.profiles.en.cardDark     // If not, just show the image's alt.
+                        // Check if cardDark is not null,
+                        if ( data.profiles?.en?.cardDark != null ) {
+                            // If so, display the card image
+                            img.src = data.profiles.en.cardDark
                         } else {
+                            // If not, Just show the image,
+                            // The image without it's "src" value just show's the alt,
+                            // A.K.A, The pronouns.page username.
                             makeVisible();
                         }
                     });
                 
+                // Append the image to the Link element.
                 cardLink.appendChild(img);
                 
-                tempCardContainer.push(cardLink);
+                // Append the Link element to the card container div
+                cardContainer.appendChild(cardLink);
                 
-                tempCardContainer.forEach((data, index) => {
-                    cardContainer.appendChild(data);
-                });
-                
+                // Log success!
                 console.info(`Added the card to DOM. With the username "${card.username}"`);
 
             });
